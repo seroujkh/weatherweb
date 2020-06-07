@@ -1,23 +1,29 @@
-console.log('Client side js file loaded')
+const weatherForm=document.querySelector('form')
+const search = document.querySelector('input')
 
-fetch('http://puzzle.mead.io/puzzle').then((response) => {
-    response.json().then( (data) => {
-        console.log(data)
 
-    }  )
-})
+const m1 = document.getElementById('m1')
+const m2 = document.getElementById('m2')
 
-fetch('http://localhost:3000/weather?address=?').then((response)=> {
 
+
+weatherForm.addEventListener('submit', (e) => {
+    e.preventDefault()
+    m1.textContent="Loading..."
+    m2.textContent=""
+    const location = search.value
+    fetch('http://localhost:3000/weather?address='+location).then((response)=> {
+       
     response.json().then( (data) => {
 
         if(data.error) {
-            console.log(data.error)
+           m1.textContent=data.error
         }else {
-            console.log(data.location)
-            console.log(data.forecast)
+            m1.textContent=data.location
+            m2.textContent=data.forecast
         }
     
     })
 
+})
 })
